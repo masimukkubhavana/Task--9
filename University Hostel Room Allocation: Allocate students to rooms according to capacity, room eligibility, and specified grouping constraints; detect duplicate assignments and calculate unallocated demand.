@@ -1,0 +1,101 @@
+# University Hostel Room Allocation
+students = ["S101", "S102", "S103", "S104", "S105", "S106"]
+rooms = {
+    "Room1": {"capacity": 2, "type": "Boys"},
+    "Room2": {"capacity": 2, "type": "Girls"},
+    "Room3": {"capacity": 2, "type": "Boys"}
+}
+
+# Student details: ID and category
+student_type = {
+    "S101": "Boys",
+    "S102": "Girls",
+    "S103": "Boys",
+    "S104": "Girls",
+    "S105": "Boys",
+    "S106": "Girls"
+}
+
+allocation = {}
+room_count = {}
+
+# Initialize room counts
+for room in rooms:
+    room_count[room] = 0
+
+# Allocate students
+for student in students:
+    assigned = False
+
+    for room in rooms:
+        if (rooms[room]["type"] == student_type[student]
+            and room_count[room] < rooms[room]["capacity"]):
+
+            allocation[student] = room
+            room_count[room] += 1
+            assigned = True
+            break
+
+    if not assigned:
+        allocation[student] = "Not Allocated"
+
+# Display allocation
+print("HOSTEL ROOM ALLOCATION")
+print("----------------------")
+
+for student in students:
+    print(student, ":", allocation[student])
+
+# Detect duplicate assignments
+print("\nDuplicate Assignment Check:")
+
+assigned_rooms = []
+
+for student in allocation:
+    room = allocation[student]
+
+    if room != "Not Allocated":
+        if student in assigned_rooms:
+            print("Duplicate:", student)
+        else:
+            assigned_rooms.append(student)
+
+print("No duplicate student assignments found.")
+
+# Display room occupancy
+print("\nRoom Occupancy:")
+
+for room in rooms:
+    print(room, ":", room_count[room],
+          "/", rooms[room]["capacity"])
+
+# Calculate unallocated demand
+unallocated = 0
+
+for student in allocation:
+    if allocation[student] == "Not Allocated":
+        unallocated += 1
+
+print("\nUnallocated Students:", unallocated)
+
+output :
+
+HOSTEL ROOM ALLOCATION
+----------------------
+S101 : Room1
+S102 : Room2
+S103 : Room1
+S104 : Room2
+S105 : Room3
+S106 : Not Allocated
+
+Duplicate Assignment Check:
+No duplicate student assignments found.
+
+Room Occupancy:
+Room1 : 2 / 2
+Room2 : 2 / 2
+Room3 : 1 / 2
+
+Unallocated Students: 1
+
